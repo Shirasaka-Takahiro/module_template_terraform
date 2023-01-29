@@ -3,7 +3,7 @@ variable "general_config" {
   type = map(any)
   default = {
     project = "example"
-    env     = "dev"
+    env     = "prod"
   }
 }
 
@@ -73,5 +73,16 @@ variable "private_subnets" {
         az   = "ap-northeast-1c"
       }
     }
+  }
+}
+
+##Security Group Internal
+variable "internal_sg" {
+  type = map(any)
+  default = {
+    from_port = 0
+    to_port   = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }

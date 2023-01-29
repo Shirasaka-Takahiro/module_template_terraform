@@ -1,6 +1,6 @@
 ##Security Group
 resource "aws_security_group" "default" {
-  name = var.sg_name
+  name = "${var.general_config["project"]}-${var.general_config["env"]}-${var.sg_role}-sg"
   vpc_id = var.vpc_id
  
   #Ingrerss

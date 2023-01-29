@@ -22,3 +22,15 @@ module "network" {
   public_subnets     = var.public_subnets
   private_subnets    = var.private_subnets
 }
+
+##Security Group
+module "securitygroup" {
+  source = "../../module/securitygroup"
+
+  general_config     = var.general_config
+  vpc_id = module.network.vpc_id
+  from_port = var.from_port
+  to_port = var.to_port
+  protocol = var.protocol
+  cidr_blocks = var.cidr_blocks
+}
