@@ -75,14 +75,3 @@ variable "private_subnets" {
     }
   }
 }
-
-##Security Group Internal
-variable "internal_sg" {
-  type = map(any)
-  default = {
-    from_port = 0
-    to_port   = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
