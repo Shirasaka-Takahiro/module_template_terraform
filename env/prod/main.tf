@@ -21,6 +21,4 @@ module "network" {
   vpc_cidr           = var.vpc_cidr
   public_subnets     = var.public_subnets
   private_subnets    = var.private_subnets
-  public_subnet_ids  = module.dev.public_subnet_ids
-  private_subnet_ids = module.dev.private_subnet_ids
 }
