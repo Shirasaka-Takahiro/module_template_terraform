@@ -2,6 +2,10 @@ output "vpc_id" {
   value = aws_vpc.vpc.id
 }
 
+output "internet_gateway_id" {
+  value = aws_internet_gateway.internet_gateway.id
+}
+
 output "vpc_cidrblock" {
   value = aws_vpc.vpc.cidr_block
 }
