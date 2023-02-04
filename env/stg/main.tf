@@ -67,3 +67,46 @@ module "operation_sg_3" {
   cidr_blocks    = ["0.0.0.0/0"]
   sg_role        = "operation_3"
 }
+
+module "alb_http" {
+  source = "../../module/securitygroup"
+
+  general_config = var.general_config
+  vpc_id         = module.network.vpc_id
+  from_port      = 80
+  to_port        = 80
+  protocol       = "tcp"
+  cidr_blocks    = ["0.0.0.0/0"]
+  sg_role        = "alb_http"
+}
+
+module "alb_https" {
+  source = "../../module/securitygroup"
+
+  general_config = var.general_config
+  vpc_id         = module.network.vpc_id
+  from_port      = 443
+  to_port        = 443
+  protocol       = "tcp"
+  cidr_blocks    = ["0.0.0.0/0"]
+  sg_role        = "alb_https"
+}
+
+##EC2
+module "ec2" {
+  source = "../../module/ec2"
+
+  general_config    = var.general_config
+  ami               = var.ami
+  public_subnets    = var.public_subnets
+  public_subnet_ids = module.network.public_subnet_ids
+  internal_sg_id    = module.internal_sg.security_group_id
+  operation_sg_1_id = module.operation_sg_1.security_group_id
+  operation_sg_2_id = module.operation_sg_2.security_group_id
+  operation_sg_3_id = module.operation_sg_3.security_group_id
+  key_name          = var.key_name
+  public_key_path   = var.public_key_path
+  instance_type     = var.instance_type
+  volume_type       = var.volume_type
+  volume_size       = var.volume_size
+}
