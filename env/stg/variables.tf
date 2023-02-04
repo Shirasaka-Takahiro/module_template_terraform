@@ -77,21 +77,12 @@ variable "private_subnets" {
 }
 
 ##Security Group
-variable "operation_sg_source_ip_1" {
-  description = "Source IP for operation_sg"
-  type        = string
-  default     = "0.0.0.0/0"
+variable "sg_ip" {
+  type = map(any)
+  default = {
+    ip_1 = "10.0.0.0/16"
+    ip_2 = "0.0.0.0/0"
+    ip_3 = "0.0.0.0/0"
+    ip_4 = "0.0.0.0/0"
+  }
 }
-
-variable "operation_sg_source_ip_2" {
-  description = "Source IP for operation_sg"
-  type        = string
-  default     = "0.0.0.0/0"
-}
-
-variable "operation_sg_source_ip_3" {
-  description = "Source IP for operation_sg"
-  type        = string
-  default     = "0.0.0.0/0"
-}
-

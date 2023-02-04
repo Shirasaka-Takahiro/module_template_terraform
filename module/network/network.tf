@@ -56,7 +56,7 @@ resource "aws_route_table" "public_route_tables" {
 
 ##Public Internet Gateway
 resource "aws_route" "public_internet_gateway" {
-  gateway_id = var.general_config["env"] == "stg" ? aws_internet_gateway.internet_gateway.id : var.internet_gateway_id
+  gateway_id             = var.general_config["env"] == "stg" ? aws_internet_gateway.internet_gateway.id : var.internet_gateway_id
   for_each               = var.public_subnets.subnets
   route_table_id         = aws_route_table.public_route_tables[each.key].id
   destination_cidr_block = "0.0.0.0/0"
