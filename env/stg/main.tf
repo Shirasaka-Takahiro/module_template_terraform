@@ -68,7 +68,7 @@ module "operation_sg_3" {
   sg_role        = "operation_3"
 }
 
-module "alb_http" {
+module "alb_http_sg" {
   source = "../../module/securitygroup"
 
   general_config = var.general_config
@@ -80,7 +80,7 @@ module "alb_http" {
   sg_role        = "alb_http"
 }
 
-module "alb_https" {
+module "alb_https_sg" {
   source = "../../module/securitygroup"
 
   general_config = var.general_config
@@ -109,4 +109,16 @@ module "ec2" {
   instance_type     = var.instance_type
   volume_type       = var.volume_type
   volume_size       = var.volume_size
+}
+
+##ALB
+module "alb" {
+  source = "../../module/alb"
+
+  vpc_id            = module.network.vpc_id
+  general_config    = var.general_config
+  public_subnet_ids = module.network.public_subnet_ids
+  alb_http_sg_id    = module.alb_http_sg.security_group_id
+  alb_https_sg_id   = module.alb_https_sg.security_group_id
+  instance_ids      = module.ec2.instance_ids
 }

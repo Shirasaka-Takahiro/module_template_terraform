@@ -34,11 +34,11 @@ output "operation_sg_3_id" {
 }
 
 output "alb_http_sg_id" {
-  value = module.alb_http.security_group_id
+  value = module.alb_http_sg.security_group_id
 }
 
 output "alb_https_sg_id" {
-  value = module.alb_https.security_group_id
+  value = module.alb_https_sg.security_group_id
 }
 
 ##Instance ids
