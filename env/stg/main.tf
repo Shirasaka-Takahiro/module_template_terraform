@@ -40,7 +40,7 @@ module "operation_sg_1" {
   from_port      = 22
   to_port        = 22
   protocol       = "tcp"
-  cidr_blocks    = ["0.0.0.0/0"]
+  cidr_blocks    = var.operation_sg_1_cidr
   sg_role        = "operation_1"
 }
 
@@ -52,7 +52,7 @@ module "operation_sg_2" {
   from_port      = 22
   to_port        = 22
   protocol       = "tcp"
-  cidr_blocks    = ["0.0.0.0/0"]
+  cidr_blocks    = var.operation_sg_2_cidr
   sg_role        = "operation_2"
 }
 
@@ -64,7 +64,7 @@ module "operation_sg_3" {
   from_port      = 22
   to_port        = 22
   protocol       = "tcp"
-  cidr_blocks    = ["0.0.0.0/0"]
+  cidr_blocks    = var.operation_sg_3_cidr
   sg_role        = "operation_3"
 }
 
