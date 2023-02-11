@@ -122,3 +122,45 @@ module "alb" {
   alb_https_sg_id   = module.alb_https_sg.security_group_id
   instance_ids      = module.ec2.instance_ids
 }
+
+##DNS
+module "naked_domain" {
+  soruce = "../../module/route53"
+
+  zone_id      = var.zone_id
+  zone_name    = "onya-lab.site"
+  record_type  = "A"
+  alb_dns_name = module.alb.alb_dns_name
+  alb_zone_id  = module.alb.alb_zone_id
+}
+
+module "www" {
+  soruce = "../../module/route53"
+
+  zone_id      = var.zone_id
+  zone_name    = "www.onya-lab.site"
+  record_type  = "A"
+  alb_dns_name = module.alb.alb_dns_name
+  alb_zone_id  = module.alb.alb_zone_id
+}
+
+module "stg" {
+  soruce = "../../module/route53"
+
+  zone_id      = var.zone_id
+  zone_name    = "stg.onya-lab.site"
+  record_type  = "A"
+  alb_dns_name = module.alb.alb_dns_name
+  alb_zone_id  = module.alb.alb_zone_id
+}
+
+##ACM
+module "acm" {
+  soruce = "../../module/acm"
+
+  zone_id      = var.zone_id
+  zone_name    = "stg.onya-lab.site"
+  record_type  = "A"
+  alb_dns_name = module.alb.alb_dns_name
+  alb_zone_id  = module.alb.alb_zone_id
+}

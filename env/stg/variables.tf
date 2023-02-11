@@ -96,28 +96,35 @@ variable "ami" {
 }
 
 variable "instance_type" {
-  description = "The type of instance"
+  description = "Instance type of EC2"
   type        = string
   default     = "t3.micro"
 }
 
 variable "volume_type" {
-  description = "The type of root block device"
+  description = "Root block device of EC2"
   type        = string
   default     = "gp2"
 }
 
 variable "volume_size" {
-  description = "The size of root block device"
+  description = "Root block device size of EC2"
   default     = 100
 }
 
 variable "key_name" {
-  description = "key name of the key pair"
+  description = "Key pair's name"
   type        = string
 }
 
 variable "public_key_path" {
-  description = "key path of the public key. Example: ~/.ssh/terraform.pub"
+  description = "Public key path. For example: ~/.ssh/terraform.pub"
   type        = string
 }
+
+##Route53
+#variable "primary_zone" {
+#  description = "Primary zone name. For example: example.com"
+#  type        = string
+#  default     = "example.com"
+#}
