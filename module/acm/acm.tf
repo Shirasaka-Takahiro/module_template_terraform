@@ -1,6 +1,6 @@
 ##ACM
 resource "aws_acm_certificate" "cert_alb" {
-  domain_name = var.domain_name
+  domain_name               = var.domain_name
   subject_alternative_names = [var.sans]
   validation_method         = "DNS"
 
@@ -24,5 +24,5 @@ resource "aws_route53_record" "cert_validation_alb" {
   records         = [each.value.record]
   type            = each.value.type
   ttl             = "300"
-  zone_id = var.zone_id
+  zone_id         = var.zone_id
 }
