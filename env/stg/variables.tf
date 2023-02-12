@@ -128,3 +128,22 @@ variable "public_key_path" {
 #  type        = string
 #  default     = "example.com"
 #}
+
+variable "zone_id" {
+  description = "Zone id on Route53"
+  type        = string
+  default     = "Z07403921OYE516WPU79B"
+}
+
+##ACM
+variable "domain_name" {
+  description = "Domain name for ACM"
+  type        = string
+  default     = "onya-lab.site"
+}
+
+variable "sans" {
+  description = "Subject alternative names for ACm"
+  type        = string
+  default     = "*.onya-lab.site"
+}

@@ -9,7 +9,6 @@ resource "aws_route53_record" "default" {
   zone_id = var.zone_id
   name    = var.zone_name
   type    = var.record_type
-  ttl     = 300
   alias {
     name                   = var.alb_dns_name
     zone_id                = var.alb_zone_id

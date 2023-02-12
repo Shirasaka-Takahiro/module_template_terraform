@@ -125,7 +125,7 @@ module "alb" {
 
 ##DNS
 module "naked_domain" {
-  soruce = "../../module/route53"
+  source = "../../module/route53"
 
   zone_id      = var.zone_id
   zone_name    = "onya-lab.site"
@@ -135,7 +135,7 @@ module "naked_domain" {
 }
 
 module "www" {
-  soruce = "../../module/route53"
+  source = "../../module/route53"
 
   zone_id      = var.zone_id
   zone_name    = "www.onya-lab.site"
@@ -145,7 +145,7 @@ module "www" {
 }
 
 module "stg" {
-  soruce = "../../module/route53"
+  source = "../../module/route53"
 
   zone_id      = var.zone_id
   zone_name    = "stg.onya-lab.site"
@@ -156,11 +156,11 @@ module "stg" {
 
 ##ACM
 module "acm" {
-  soruce = "../../module/acm"
+  source = "../../module/acm"
 
   zone_id      = var.zone_id
-  zone_name    = "stg.onya-lab.site"
-  record_type  = "A"
+  domain_name  = var.domain_name
+  sans         = var.sans
   alb_dns_name = module.alb.alb_dns_name
   alb_zone_id  = module.alb.alb_zone_id
 }
