@@ -1,9 +1,6 @@
 variable "general_config" {
   type = map(any)
 }
-variable "regions" {
-  type = map(any)
-}
 variable "vpc_id" {}
 variable "vpc_cidr" {}
 variable "internet_gateway_id" {}

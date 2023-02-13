@@ -8,12 +8,12 @@ variable "general_config" {
 }
 
 ##Regions
-variable "regions" {
-  default = {
-    tokyo    = "ap-northeast-1"
-    virginia = "us-east-1"
-  }
-}
+#variable "regions" {
+#  default = {
+#    tokyo    = "ap-northeast-1"
+#    virginia = "us-east-1"
+#  }
+#
 
 ##Network
 variable "vpc" {

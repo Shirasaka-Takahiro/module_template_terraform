@@ -1,13 +1,13 @@
 ##Provider for ap-northeast-1
 provider "aws" {
   profile = "terraform-user"
-  region  = var.regions["tokyo"]
+  region  = "ap-northeast-1"
 }
 
 provider "aws" {
   profile = "terraform-user"
-  alias   = "us-east-1"
-  region  = var.regions["virginia"]
+  alias   = "virginia"
+  region  = "us-east-1"
 }
 
 ##Network
@@ -15,7 +15,6 @@ module "network" {
   source = "../../module/network"
 
   general_config      = var.general_config
-  regions             = var.regions
   availability_zones  = var.availability_zones
   vpc_id              = module.network.vpc_id
   vpc_cidr            = var.vpc_cidr
@@ -168,7 +167,6 @@ module "acm_alb" {
   zone_id     = var.zone_id
   domain_name = var.domain_name
   sans        = var.sans
-  regions = {}
 }
 
 module "acm_cloudfront" {
@@ -177,7 +175,6 @@ module "acm_cloudfront" {
   zone_id     = var.zone_id
   domain_name = var.domain_name
   sans        = var.sans
-  regions = {}
 }
 
 ##CloudFront
