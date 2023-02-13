@@ -143,7 +143,14 @@ variable "domain_name" {
 }
 
 variable "sans" {
-  description = "Subject alternative names for ACm"
+  description = "Subject alternative names for ACM"
   type        = string
   default     = "*.onya-lab.site"
+}
+
+##CloudFront
+variable "zone_name" {
+  description = "Zone name for CloudFront's aliases"
+  type        = string
+  default     = "onya-lab.site"
 }

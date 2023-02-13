@@ -126,7 +126,7 @@ module "alb" {
   public_subnet_ids = module.network.public_subnet_ids
   alb_http_sg_id    = module.alb_http_sg.security_group_id
   alb_https_sg_id   = module.alb_https_sg.security_group_id
-  cert_alb_arn      = module.acm_alb.cert_default_arn
+  cert_alb_arn      = module.acm_alb.cert_alb_arn
   instance_ids      = module.ec2.instance_ids
 }
 
@@ -165,27 +165,27 @@ module "stg" {
 module "acm_alb" {
   source = "../../module/acm"
 
-  zone_id      = var.zone_id
-  domain_name  = var.domain_name
-  sans         = var.sans
-  provider = var.regions
+  zone_id     = var.zone_id
+  domain_name = var.domain_name
+  sans        = var.sans
+  regions = {}
 }
 
 module "acm_cloudfront" {
   source = "../../module/acm"
 
-  zone_id      = var.zone_id
-  domain_name  = var.domain_name
-  sans         = var.sans
-  provider = var.regions
+  zone_id     = var.zone_id
+  domain_name = var.domain_name
+  sans        = var.sans
+  regions = {}
 }
 
 ##CloudFront
-module "acm_cloudfront" {
-  source = "../../module/acm"
+module "cloudfront" {
+  source = "../../module/cloudfront"
 
-  zone_name      = var.zone_name
-  domain_name  = var.domain_name
-  alb_id         = module.alb.alb_id
-  cert_cloudfront_arn = module.acm_cloudfront.cert_default_arn
+  zone_name           = var.zone_name
+  domain_name         = var.domain_name
+  alb_id              = module.alb.alb_id
+  cert_cloudfront_arn = module.acm_cloudfront.cert_cloudfront_arn
 }
