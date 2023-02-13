@@ -4,6 +4,12 @@ provider "aws" {
   region  = var.regions["tokyo"]
 }
 
+provider "aws" {
+  profile = "terraform-user"
+  alias   = "us-east-1"
+  region  = var.regions["virginia"]
+}
+
 ##Network
 module "network" {
   source = "../../module/network"
@@ -120,7 +126,7 @@ module "alb" {
   public_subnet_ids = module.network.public_subnet_ids
   alb_http_sg_id    = module.alb_http_sg.security_group_id
   alb_https_sg_id   = module.alb_https_sg.security_group_id
-  cert_alb_arn      = module.acm.cert_alb_arn
+  cert_alb_arn      = module.acm_alb.cert_default_arn
   instance_ids      = module.ec2.instance_ids
 }
 
@@ -156,12 +162,30 @@ module "stg" {
 }
 
 ##ACM
-module "acm" {
+module "acm_alb" {
   source = "../../module/acm"
 
   zone_id      = var.zone_id
   domain_name  = var.domain_name
   sans         = var.sans
-  alb_dns_name = module.alb.alb_dns_name
-  alb_zone_id  = module.alb.alb_zone_id
+  provider = var.regions
+}
+
+module "acm_cloudfront" {
+  source = "../../module/acm"
+
+  zone_id      = var.zone_id
+  domain_name  = var.domain_name
+  sans         = var.sans
+  provider = var.regions
+}
+
+##CloudFront
+module "acm_cloudfront" {
+  source = "../../module/acm"
+
+  zone_name      = var.zone_name
+  domain_name  = var.domain_name
+  alb_id         = module.alb.alb_id
+  cert_cloudfront_arn = module.acm_cloudfront.cert_default_arn
 }

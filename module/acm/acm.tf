@@ -1,18 +1,19 @@
 ##ACM
-resource "aws_acm_certificate" "cert_alb" {
+resource "aws_acm_certificate" "cert_default" {
   domain_name               = var.domain_name
   subject_alternative_names = [var.sans]
   validation_method         = "DNS"
+  provider = var.regions
 
   lifecycle {
     create_before_destroy = true
   }
 }
 
-##Create cname record for alb on Route53
-resource "aws_route53_record" "cert_validation_alb" {
+##Create cname records on Route53
+resource "aws_route53_record" "cert_validation" {
   for_each = {
-    for dvo in aws_acm_certificate.cert_alb.domain_validation_options : dvo.domain_name => {
+    for dvo in aws_acm_certificate.cert_default.domain_validation_options : dvo.domain_name => {
       name   = dvo.resource_record_name
       record = dvo.resource_record_value
       type   = dvo.resource_record_type
