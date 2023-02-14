@@ -1,12 +1,16 @@
 ##Provider for ap-northeast-1
 provider "aws" {
   profile = "terraform-user"
+  access_key = var.access_key
+  secret_key = var.secret_key
   region  = "ap-northeast-1"
 }
 
 provider "aws" {
   profile = "terraform-user"
   alias   = "virginia"
+  access_key = var.access_key
+  secret_key = var.secret_key
   region  = "us-east-1"
 }
 
@@ -127,6 +131,16 @@ module "alb" {
   alb_https_sg_id   = module.alb_https_sg.security_group_id
   cert_alb_arn      = module.acm_alb.cert_alb_arn
   instance_ids      = module.ec2.instance_ids
+}
+
+##EFS
+module "efs" {
+  source = "../../module/efs"
+
+  general_config    = var.general_config
+  public_subnets    = var.public_subnets
+  public_subnet_ids = module.network.public_subnet_ids
+  internal_sg_id    = module.internal_sg.security_group_id
 }
 
 ##DNS

@@ -1,3 +1,15 @@
+##Access key
+variable "access_key" {
+  description = "Access key"
+  type        = string
+}
+
+##Secret Key
+variable "secret_key" {
+  description = "Secret Key"
+  type        = string
+}
+
 ##General Config
 variable "general_config" {
   type = map(any)
@@ -8,12 +20,12 @@ variable "general_config" {
 }
 
 ##Regions
-#variable "regions" {
-#  default = {
-#    tokyo    = "ap-northeast-1"
-#    virginia = "us-east-1"
-#  }
-#
+variable "regions" {
+  default = {
+    tokyo    = "ap-northeast-1"
+    virginia = "us-east-1"
+  }
+}
 
 ##Network
 variable "vpc" {
