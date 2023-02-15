@@ -20,9 +20,9 @@ resource "aws_cloudfront_distribution" "cloudfront" {
 
   viewer_certificate {
     cloudfront_default_certificate = false
-    acm_certificate_arn      = var.cert_cloudfront_arn
-    minimum_protocol_version = "TLSv1.2_2021"
-    ssl_support_method       = "sni-only"
+    acm_certificate_arn            = var.cert_cloudfront_arn
+    minimum_protocol_version       = "TLSv1.2_2021"
+    ssl_support_method             = "sni-only"
   }
 
   price_class = "PriceClass_All"
@@ -33,11 +33,17 @@ resource "aws_cloudfront_distribution" "cloudfront" {
     }
   }
 
+  logging_config {
+    bucket          = var.cloudfront_access_log_bucket_id
+    include_cookies = true
+    prefix          = var.general_config["project"]
+  }
+
   default_cache_behavior {
     allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
     cached_methods   = ["HEAD", "GET", "OPTIONS"]
     target_origin_id = var.alb_id
-  
+
     forwarded_values {
       query_string = true
       cookies {

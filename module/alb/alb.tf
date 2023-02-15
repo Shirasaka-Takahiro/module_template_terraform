@@ -10,6 +10,12 @@ resource "aws_lb" "alb" {
   subnets         = var.public_subnet_ids
   ip_address_type = "ipv4"
 
+  access_logs {
+    bucket  = var.alb_access_log_bucket_id
+    prefix  = var.general_config["project"]
+    enabled = true
+  }
+
   tags = {
     Name = "${var.general_config["project"]}-${var.general_config["env"]}-alb"
   }
@@ -41,7 +47,7 @@ resource "aws_lb_target_group" "tg" {
 }
 
 ##HTTP Listener
-resource "aws_lb_listener" "alb-http-listener" {
+resource "aws_lb_listener" "alb_http_listener" {
   load_balancer_arn = aws_lb.alb.arn
   port              = "80"
   protocol          = "HTTP"
@@ -53,7 +59,7 @@ resource "aws_lb_listener" "alb-http-listener" {
 }
 
 ##HTTPS Listener
-resource "aws_lb_listener" "alb-https-listener" {
+resource "aws_lb_listener" "alb_https_listener" {
   load_balancer_arn = aws_lb.alb.arn
   port              = "443"
   protocol          = "HTTPS"
@@ -67,7 +73,7 @@ resource "aws_lb_listener" "alb-https-listener" {
 }
 
 ##Attach target group to the alb
-resource "aws_lb_target_group_attachment" "attach-tg-to-alb" {
+resource "aws_lb_target_group_attachment" "attach_tg_to_alb" {
   count            = length(var.instance_ids)
   target_id        = element(var.instance_ids, count.index % 2)
   target_group_arn = aws_lb_target_group.tg.arn

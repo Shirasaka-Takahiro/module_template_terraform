@@ -224,6 +224,7 @@ module "rds" {
   source = "../../module/rds"
 
   general_config       = var.general_config
+  private_subnet_ids   = module.network.private_subnet_ids
   engine_name          = var.engine_name
   major_engine_version = var.major_engine_version
   engine               = var.engine
