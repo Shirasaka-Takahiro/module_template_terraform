@@ -1,17 +1,17 @@
 ##Provider for ap-northeast-1
 provider "aws" {
-  profile = "terraform-user"
+  profile    = "terraform-user"
   access_key = var.access_key
   secret_key = var.secret_key
-  region  = "ap-northeast-1"
+  region     = "ap-northeast-1"
 }
 
 provider "aws" {
-  profile = "terraform-user"
-  alias   = "virginia"
+  profile    = "terraform-user"
+  alias      = "virginia"
   access_key = var.access_key
   secret_key = var.secret_key
-  region  = "us-east-1"
+  region     = "us-east-1"
 }
 
 ##Network
@@ -124,13 +124,14 @@ module "ec2" {
 module "alb" {
   source = "../../module/alb"
 
-  vpc_id            = module.network.vpc_id
-  general_config    = var.general_config
-  public_subnet_ids = module.network.public_subnet_ids
-  alb_http_sg_id    = module.alb_http_sg.security_group_id
-  alb_https_sg_id   = module.alb_https_sg.security_group_id
-  cert_alb_arn      = module.acm_alb.cert_alb_arn
-  instance_ids      = module.ec2.instance_ids
+  vpc_id                   = module.network.vpc_id
+  general_config           = var.general_config
+  public_subnet_ids        = module.network.public_subnet_ids
+  alb_http_sg_id           = module.alb_http_sg.security_group_id
+  alb_https_sg_id          = module.alb_https_sg.security_group_id
+  cert_alb_arn             = module.acm_alb.cert_alb_arn
+  instance_ids             = module.ec2.instance_ids
+  alb_access_log_bucket_id = module.s3_alb_access_log.bucket_id
 }
 
 ##EFS
@@ -141,6 +142,21 @@ module "efs" {
   public_subnets    = var.public_subnets
   public_subnet_ids = module.network.public_subnet_ids
   internal_sg_id    = module.internal_sg.security_group_id
+}
+
+##S3
+module "s3_alb_access_log" {
+  source = "../../module/s3"
+
+  general_config = var.general_config
+  bucket_role    = "alb-access-log"
+}
+
+module "s3_cloudfront_access_log" {
+  source = "../../module/s3"
+
+  general_config = var.general_config
+  bucket_role    = "cloudfront-access-log"
 }
 
 ##DNS
@@ -195,8 +211,28 @@ module "acm_cloudfront" {
 module "cloudfront" {
   source = "../../module/cloudfront"
 
-  zone_name           = var.zone_name
-  domain_name         = var.domain_name
-  alb_id              = module.alb.alb_id
-  cert_cloudfront_arn = module.acm_cloudfront.cert_cloudfront_arn
+  general_config                  = var.general_config
+  zone_name                       = var.zone_name
+  domain_name                     = var.domain_name
+  alb_id                          = module.alb.alb_id
+  cert_cloudfront_arn             = module.acm_cloudfront.cert_cloudfront_arn
+  cloudfront_access_log_bucket_id = module.s3_cloudfront_access_log.bucket_id
+}
+
+##RDS
+module "rds" {
+  source = "../../module/rds"
+
+  general_config       = var.general_config
+  engine_name          = var.engine_name
+  major_engine_version = var.major_engine_version
+  engine               = var.engine
+  engine_version       = var.engine_version
+  username             = var.username
+  password             = var.password
+  instance_class       = var.instance_class
+  storage_type         = var.storage_type
+  allocated_storage    = var.allocated_storage
+  multi_az             = var.multi_az
+  internal_sg_id       = module.internal_sg.security_group_id
 }

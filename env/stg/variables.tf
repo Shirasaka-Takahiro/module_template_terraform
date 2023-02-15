@@ -166,3 +166,58 @@ variable "zone_name" {
   type        = string
   default     = "onya-lab.site"
 }
+
+##RDS Option Group
+variable "engine_name" {
+  type    = string
+  default = "mysql"
+}
+
+variable "major_engine_version" {
+  type    = string
+  default = "8.0"
+}
+
+##RDS
+variable "engine" {
+  type    = string
+  default = "mysql"
+}
+
+variable "engine_version" {
+  type    = string
+  default = "8.0"
+}
+
+variable "username" {
+  description = "root username of db instance"
+  type        = string
+}
+
+variable "password" {
+  description = "root password of db instance"
+  type        = string
+}
+
+variable "instance_class" {
+  description = "The class of db instance"
+  type        = string
+  default     = "db.t3.medium"
+}
+
+variable "storage_type" {
+  description = "The storage type of db instance"
+  type        = string
+  default     = "gp2"
+}
+
+variable "allocated_storage" {
+  description = "The allocated storage of db instance"
+  default     = 20
+}
+
+variable "multi_az" {
+  description = "multi az of db instance"
+  type        = string
+  default     = "true"
+}
