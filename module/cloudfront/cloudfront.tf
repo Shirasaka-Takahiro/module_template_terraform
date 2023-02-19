@@ -34,7 +34,7 @@ resource "aws_cloudfront_distribution" "cloudfront" {
   }
 
   logging_config {
-    bucket          = var.cloudfront_access_log_bucket_id
+    bucket          = var.cloudfront_access_log_bucket_domain_name
     include_cookies = true
     prefix          = var.general_config["project"]
   }

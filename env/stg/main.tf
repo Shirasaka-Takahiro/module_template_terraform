@@ -150,6 +150,7 @@ module "s3_alb_access_log" {
 
   general_config = var.general_config
   bucket_role    = "alb-access-log"
+  account_id     = "arn:aws:iam::482122962623:user/terraform-user"
 }
 
 module "s3_cloudfront_access_log" {
@@ -157,6 +158,7 @@ module "s3_cloudfront_access_log" {
 
   general_config = var.general_config
   bucket_role    = "cloudfront-access-log"
+  account_id     = "arn:aws:iam::482122962623:user/terraform-user"
 }
 
 ##DNS
@@ -211,12 +213,12 @@ module "acm_cloudfront" {
 module "cloudfront" {
   source = "../../module/cloudfront"
 
-  general_config                  = var.general_config
-  zone_name                       = var.zone_name
-  domain_name                     = var.domain_name
-  alb_id                          = module.alb.alb_id
-  cert_cloudfront_arn             = module.acm_cloudfront.cert_cloudfront_arn
-  cloudfront_access_log_bucket_id = module.s3_cloudfront_access_log.bucket_id
+  general_config                           = var.general_config
+  zone_name                                = var.zone_name
+  domain_name                              = var.domain_name
+  alb_id                                   = module.alb.alb_id
+  cert_cloudfront_arn                      = module.acm_cloudfront.cert_cloudfront_arn
+  cloudfront_access_log_bucket_domain_name = module.s3_cloudfront_access_log.bucket_domain_name
 }
 
 ##RDS

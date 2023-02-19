@@ -47,8 +47,8 @@ data "aws_iam_policy_document" "iam_policy_default" {
     actions   = ["s3:*"]
     resources = ["${aws_s3_bucket.default_bucket.arn}/*"]
     principals {
-      type        = "*"
-      identifiers = ["*"]
+      type        = "AWS"
+      identifiers = ["${var.account_id}"]
     }
   }
 }
