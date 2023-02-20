@@ -5,10 +5,31 @@ Muiti environments(stg, dev, prod) within 1 vpc
 ■Set-Up
 1. Create S3 for tfstate ex)example-stg-tfstate-bucket
 2. Generate public and private key
+3. Write resource's variables in terraform.tfvars
 
 ■Resources
+<br />
 Network
+<br />
+EC2
+<br />
+ACM
+<br />
 ALb x 1(HTTP & HTTPS Listener)
+<br />
+EFS
+<br />
+Route53
+<br />
+CloudFront
+<br />
+RDS
+<br />
+SNS
+<br />
+CloudWatch
+<br />
+S3
 
 ■Deploy
 1. Move to direstory
