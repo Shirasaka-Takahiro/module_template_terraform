@@ -8,7 +8,7 @@ resource "aws_cloudwatch_metric_alarm" "cwa_alb_unhealthyhostcount" {
   threshold           = 1
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 1
-  treat_missing_data  = "missing"
+  treat_missing_data  = "notBreaching"
   actions_enabled     = var.cwa_actions
   alarm_actions       = [var.sns_topic_arn]
   ok_actions          = [var.sns_topic_arn]
@@ -28,7 +28,7 @@ resource "aws_cloudwatch_metric_alarm" "cwa_rds_cpuutilization" {
   threshold           = 80
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 1
-  treat_missing_data  = "missing"
+  treat_missing_data  = "notBreaching"
   actions_enabled     = var.cwa_actions
   alarm_actions       = [var.sns_topic_arn]
   ok_actions          = [var.sns_topic_arn]
@@ -44,9 +44,9 @@ resource "aws_cloudwatch_metric_alarm" "cwa_rds_freeablememory" {
   statistic           = "Average"
   period              = 300
   threshold           = var.cwa_threshold_rds_freeablememory
-  comparison_operator = "LessThanOrEqualToThreshold"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 1
-  treat_missing_data  = "missing"
+  treat_missing_data  = "notBreaching"
   actions_enabled     = var.cwa_actions
   alarm_actions       = [var.sns_topic_arn]
   ok_actions          = [var.sns_topic_arn]
@@ -57,14 +57,14 @@ resource "aws_cloudwatch_metric_alarm" "cwa_rds_freeablememory" {
 
 resource "aws_cloudwatch_metric_alarm" "cwa_rds_freeablestorage" {
   alarm_name          = "${var.general_config["project"]}-${var.general_config["env"]}-${var.rds_identifier}-FreeableStorage"
-  metric_name         = "FreeableStorage"
+  metric_name         = "FreeStorageSpace"
   namespace           = "AWS/RDS"
   statistic           = "Average"
   period              = 300
   threshold           = var.cwa_threshold_rds_freeablestorage
   comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods  = 1
-  treat_missing_data  = "missing"
+  treat_missing_data  = "notBreaching"
   actions_enabled     = var.cwa_actions
   alarm_actions       = [var.sns_topic_arn]
   ok_actions          = [var.sns_topic_arn]
