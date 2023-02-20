@@ -134,6 +134,12 @@ variable "public_key_path" {
   type        = string
 }
 
+##IAM Account ID
+variable "iam_account_id" {
+  description = "IAM account id for S3 bucket's principal"
+  type        = string
+}
+
 ##Route53
 #variable "primary_zone" {
 #  description = "Primary zone name. For example: example.com"
@@ -178,7 +184,7 @@ variable "major_engine_version" {
   default = "8.0"
 }
 
-##RDS
+##RDS Instance
 variable "engine" {
   type    = string
   default = "mysql"
@@ -220,4 +226,32 @@ variable "multi_az" {
   description = "multi az of db instance"
   type        = string
   default     = "true"
+}
+
+##SNS
+variable "sns_email" {
+  description = "email address for sns"
+  type        = string
+}
+
+##Cloud Watch Alearm Actions
+variable "cwa_actions" {
+  description = "CloudWatch alearm actions"
+  type        = string
+  default     = "false"
+}
+
+##Cloud Watch Threshold for RDS
+variable "cwa_threshold_rds_freeablememory" {
+  description = "threshold of freeable memory on rds"
+  type        = number
+  #3.3GB
+  default = 3543348019
+}
+
+variable "cwa_threshold_rds_freeablestorage" {
+  description = "threshold of freeable storage on rds"
+  type        = number
+  #17GB
+  default = 18253611008
 }

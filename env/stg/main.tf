@@ -150,7 +150,7 @@ module "s3_alb_access_log" {
 
   general_config = var.general_config
   bucket_role    = "alb-access-log"
-  account_id     = "arn:aws:iam::482122962623:user/terraform-user"
+  iam_account_id = var.iam_account_id
 }
 
 module "s3_cloudfront_access_log" {
@@ -158,7 +158,7 @@ module "s3_cloudfront_access_log" {
 
   general_config = var.general_config
   bucket_role    = "cloudfront-access-log"
-  account_id     = "arn:aws:iam::482122962623:user/terraform-user"
+  iam_account_id = var.iam_account_id
 }
 
 ##DNS
@@ -238,4 +238,27 @@ module "rds" {
   allocated_storage    = var.allocated_storage
   multi_az             = var.multi_az
   internal_sg_id       = module.internal_sg.security_group_id
+}
+
+##SNS
+module "sns" {
+  source = "../../module/sns"
+
+  general_config = var.general_config
+  sns_email      = var.sns_email
+}
+
+##CloudWatch
+module "cloudwatch" {
+  source = "../../module/cloudwatch"
+
+  general_config                    = var.general_config
+  cwa_actions                       = var.cwa_actions
+  sns_topic_arn                     = module.sns.default_topic_arn
+  alb_name                          = module.alb.alb_name
+  tg_arn_suffix                     = module.alb.tg_arn_suffix
+  alb_arn_suffix                    = module.alb.alb_arn_suffix
+  rds_identifier                    = module.rds.rds_identifier
+  cwa_threshold_rds_freeablememory  = var.cwa_threshold_rds_freeablememory
+  cwa_threshold_rds_freeablestorage = var.cwa_threshold_rds_freeablestorage
 }
